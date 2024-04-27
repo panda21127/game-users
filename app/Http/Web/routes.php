@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Web\Controllers\HealthCheck;
-use App\Http\Web\Controllers\OasController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('health', HealthCheck::class);
+Route::post('/user/register', 'AuthController@register');
 
-Route::get('/', [OasController::class, 'list']);
+Route::post('/user/auth', 'AuthController@auth');
+
