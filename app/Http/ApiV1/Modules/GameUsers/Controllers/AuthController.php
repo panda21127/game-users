@@ -20,10 +20,10 @@ class AuthController extends Controller
             $validated = $request->validated();
             $error = $action->execute($validated);
             if ($error != null) {
-                return response()->json($error->getMessage(), 400);
+                return response()->json(['error' => ['message' => $error->getMessage()]], 400);
             }
         } catch (\Exception $e) {
-            return response()->json($e->getMessage(), 400);
+            return response()->json(['error' => ['message' => $e->getMessage()]], 400);
         }
 
         return response(null, Response::HTTP_ACCEPTED);
@@ -35,12 +35,12 @@ class AuthController extends Controller
             $validated = $request->validated();
             $returned_data = $action->execute($validated);
             if ($returned_data instanceof \Exception) {
-                return response()->json($returned_data->getMessage(), 401);
+                return response()->json(['error' => ['message' => $returned_data->getMessage()]], 401);
             } else {
-                return response()->json(['data' => $returned_data], 200);
+                return response()->json(['data' => ['id' => $returned_data]], 200);
             }
         } catch (\Exception $e) {
-            return response()->json($e->getMessage(), 400);
+            return response()->json(['error' => ['message' => $e->getMessage()]], 400);
         }
     }
 }

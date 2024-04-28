@@ -9,17 +9,13 @@ class RegisterAction
 {
     public function execute(array $data): ?\Exception
     {
-        try {
-            $user = new GameUser();
-            if (GameUser::where('username', $data['username'])->exists()) {
-                throw new BadRequestException("User already exists");
-            }
-            $user->username = $data['username'];
-            $user->password = $data['password'];
-            $user->save();
-        } catch (\Exception $e) {
-            return $e;
+        $user = new GameUser();
+        if (GameUser::where('username', $data['username'])->exists()) {
+            throw new BadRequestException("User already exists");
         }
+        $user->username = $data['username'];
+        $user->password = $data['password'];
+        $user->save();
 
         return null;
     }
