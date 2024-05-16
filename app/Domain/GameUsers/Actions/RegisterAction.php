@@ -11,7 +11,7 @@ class RegisterAction
     {
         $user = new GameUser();
         if (GameUser::where('username', $data['username'])->exists()) {
-            throw new BadRequestException("User already exists");
+            throw new BadRequestException("User already exists", 400);
         }
         $user->username = $data['username'];
         $user->password = $data['password'];

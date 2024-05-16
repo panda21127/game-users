@@ -13,7 +13,7 @@ class AuthAction
         if ($user->password === $data['password']) {
             return $user->id;
         } else {
-            throw new UnauthorizedException("Wrong password");
+            throw new UnauthorizedException("Wrong password", 403);
         }
     }
 }

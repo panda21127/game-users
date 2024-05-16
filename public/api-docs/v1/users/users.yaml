@@ -1,0 +1,30 @@
+AuthRequest:
+  type: object
+  properties:
+    username:
+      type: string
+      description: User name
+      example: "user"
+    password:
+      type: string
+      description: Password
+      example: "password"
+
+User:
+  type: object
+  properties:
+    id:
+      type: integer
+      description: User ID
+  required:
+    - id
+
+UserResponse:
+  type: object
+  properties:
+    data:
+      $ref: '#/User'
+    meta:
+      type: object
+  required:
+    - data

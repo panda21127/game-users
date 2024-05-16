@@ -1,42 +1,67 @@
 openapi: 3.0.3
 info:
-  title: Ensi Backend Skeleton (Replace me)
+  title: Users Service
   contact:
     name: API Support
     url: https://ensi.tech/contacts
-    email: mail@greensight.ru
+    email: kizil@mail.com
   version: 1.0.0
-  description: Ensi Backend Skeleton Description (Replace me)
+  description: User Service
 servers:
-  - url: /api/v1
+  - url: /
 tags:
-  - name: examples
-    description: Тэг-пример
+  - name: users
+    description: Users
 paths:
-  /examples/{id}:
-    get:
+  /user/register:
+    post:
       tags:
-        - examples
-      operationId: getExample
-      x-lg-handler: 'App\Http\ApiV1\Modules\Foos\Controllers\FoosController@get'
-      x-lg-route-name: 'getExample'
-      x-lg-skip-request-generation: true
-      summary: Получение объекта типа Example
-      description: Получение объекта типа Example
-      parameters:
-        - $ref: '#/components/parameters/PathId'
-        - $ref: '#/components/parameters/QueryInclude'
+        - users
+      operationId: userRegister
+      x-lg-handler: 'App\Http\ApiV1\Modules\Games\Controllers\AuthController@register'
+      summary: User register
+      description: User register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: './users/users.yaml#/AuthRequest'
       responses:
-        #"200":
-          #description: Успешный ответ
-          # content:
-          #  application/json:
-          #    schema:
-          #      $ref: './customers.yaml#/CustomerResponse'
+        "202":
+          description: Успешный ответ
+        "400":
+          $ref: '#/components/responses/BadRequest'
         "404":
           $ref: '#/components/responses/NotFound'
         "500":
           $ref: '#/components/responses/ServerError'
+  /user/auth:
+    post:
+      tags:
+        - users
+      operationId: userLogin
+      x-lg-handler: 'App\Http\ApiV1\Modules\Games\Controllers\AuthController@auth'
+      summary: User login
+      description: User login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: './users/users.yaml#/AuthRequest'
+      responses:
+        "200":
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: './users/users.yaml#/UserResponse'
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          $ref: '#/components/responses/BadRequest'
+        "500":
+          $ref: '#/components/responses/ServerError'
+
 components:
   parameters:
     QueryInclude:
@@ -53,7 +78,7 @@ components:
         meta:
           type: object
       required:
-          - data
+        - data
     PaginationTypeEnum:
       $ref: './common_schemas.yaml#/PaginationTypeEnum'
   responses:
